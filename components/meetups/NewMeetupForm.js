@@ -8,7 +8,6 @@ function NewMeetupForm(props) {
   const imageInputRef = useRef();
   const addressInputRef = useRef();
   const descriptionInputRef = useRef();
-  console.log('testing')
 
   function submitHandler(event) {
     event.preventDefault();
@@ -25,7 +24,7 @@ function NewMeetupForm(props) {
       description: enteredDescription,
     };
 
-    props.onAddMeetup(meetupData);
+    props.retrieveMeetupData(meetupData);
   }
 
   return (
