@@ -1,14 +1,14 @@
 .item {
   margin: 1rem 0;
+  text-align: center;
 }
 
 .image {
   margin: 0;
   height: 20rem;
   overflow: hidden;
-  border-top: 6px;
-  /* border-top-right-radius: 6px;
-  border-top-left-radius: 6px; */
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
 }
 
 .image img {
@@ -17,7 +17,6 @@
 }
 
 .content {
-  text-align: center;
   padding: 1rem;
 }
 
@@ -28,7 +27,6 @@
 
 .actions {
   padding: 1.5rem;
-  text-align: center;
 }
 
 .actions button {

@@ -13,6 +13,7 @@ function MyApp({ Component, pageProps }) {
 
 export default MyApp;
 
+//CCC1:
 //_app.js is a special file provided by next. This is the root component automatically rendered by nextjs no matter what URL we're on. It receives a props destructured to get two properties: component(the actual component which is presently being rendered by the file-based routing of nextjs) and pageProps (props of the rendered component)
 //so when the url is domain/ then index.js in the pages folder is matched and that is gonna be the <Component/> here which is rendered by nextjs
 //when the url is domain/new-meetup then the injex.js in pages/new-meetup is matched and that is gonna be the <Component/> here which is rendered by nextjs
