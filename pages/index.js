@@ -1,26 +1,20 @@
 import { MongoClient } from 'mongodb';
 //CCC6: When a package is imported in files in pages folder and that package is only used in getS~~~~s functions(used only on the server), nextJS will detect this and not include such package in client side bundle. This is good for secuirity and to reduce file size
+import Head from 'next/head';
+import { Fragment } from 'react';
 import MeetupList from '../components/meetups/MeetupList';
 
-const DUMMY_MEETUPS = [
-  {
-    id: 'm1',
-    title: 'A First meetup',
-    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Stadtbild_M%C3%BCnchen.jpg/1280px-Stadtbild_M%C3%BCnchen.jpg',
-    address: '718 Kroos block, munich, Germany',
-    desscription: 'This is a first meetup!'
-  }, {
-    id: 'm2',
-    title: 'A Second meetup',
-    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Stadtbild_M%C3%BCnchen.jpg/1280px-Stadtbild_M%C3%BCnchen.jpg',
-    address: '7 Unity estate, Ikeja, Nigeria',
-    desscription: 'This is a second meetup!'
-  }
-
-];
 
 const HomePage = props => {
-  return <MeetupList meetups={props.loadedMeetups} />
+  return (
+    <Fragment>
+      <Head>
+        <title>React meetups</title>
+        <meta name='description' content='Browse a huge list of highly active React meetups!'></meta>
+      </Head>
+      <MeetupList meetups={props.loadedMeetups} />
+    </Fragment>
+  )
 }
 
 /*
@@ -59,14 +53,12 @@ export async function getStaticProps() {
     id: meetup._id.toString(),
     title: meetup.title,
     address: meetup.address,
-    image: meetupsCollection.image
+    image: meetup.image
   }))
-    
-  
 
   return {
     props: {
-      loadedMeetups: DUMMY_MEETUPS
+      loadedMeetups: transformedMeetups
     },
     revalidate: 60
   }
@@ -81,3 +73,5 @@ export default HomePage;
 
 //getServerSideProps is used when regular update is not enough and we really want to regenerate this page FOR EVERY INCOMING REQUEST. So that the page is pregenerated dynamically on the fly after deployment on the server(not during building process nor after couple seconds)
 //using getServerSideProps can be disadvantageous cause we need to wait for our page to be generated on every incoming request. if we dont have data that changes all the time(changing multiple times within a sec) and we dont need to acess to the req obj for auth then getStaticProps is better. 
+
+//CCC7: when we're done coding, for a nextjs project or any kind of web project we're doing we should always check the metadata that be added to our pages. If we inspect the html code of nextjs projects, the head section is relatively empty with missing description meta tag and also page title etc which are important for search engine crawlers. We can add the title and description in the index.js file by importing a special component called Head(a component which allows us add head component to the head section of the page)

@@ -1,16 +1,24 @@
 //our-domain/concrete-value(of a dynamic path segment)
 
-import { MongoClient } from "mongodb";
+import { MongoClient, ObjectId } from "mongodb";
+import { Fragment } from "react";
+import Head from "next/head";
 import MeetupDetail from "../../components/meetups/MeetupDetail";
 
 const MeetupDetails = props => {
   return (
-    <MeetupDetail 
-      image={props.meetupData.image}
-      title={props.meetupData.title}
-      address={props.meetupData.address}
-      description={props.meetupData.description}
-    />
+    <Fragment>
+      <Head>
+        <title>{props.title}</title>
+        <meta name='description' content={props.description}></meta>
+      </Head>
+      <MeetupDetail 
+        image={props.image}
+        title={props.title}
+        address={props.address}
+        description={props.description}
+      />
+    </Fragment>
   )
 }
 
@@ -41,11 +49,15 @@ export async function getStaticProps(context) {
   const client = await MongoClient.connect('mongodb+srv://OlawaleOkemuyiwa:1Oluwaseun_@cluster0.enqpf.mongodb.net/themeetups?retryWrites=true&w=majority');
   const themeetupsdb = client.db();
   const meetupsCollection = themeetupsdb.collection('meetups');
-  const selectedMeetup = await meetupsCollection.findOne({ _id: meetupId }); //find the document in meetsup collection whose _id property === meetup id gotten from URL 
-  
+  const selectedMeetup = await meetupsCollection.findOne({ _id: ObjectId(meetupId) }); //find the document in meetsup collection whose _id property === meetup id gotten from URL 
+
   return {
     props: {
-      meetupData: selectedMeetup
+      id: selectedMeetup._id.toString(),
+      title: selectedMeetup.title,
+      address: selectedMeetup.address,
+      image: selectedMeetup.image,
+      description: selectedMeetup.description
     }
   }
 } 
