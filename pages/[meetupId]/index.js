@@ -27,13 +27,13 @@ export async function getStaticPaths() {     //CCC3: required when we are dealin
   const themeetupsdb = client.db();
   const meetupsCollection = themeetupsdb.collection('meetups');
 
-  //get documents in the collection with only their id property with no other field values
+  //get documents in the meetups collection with only their id property with no other field values
   const meetups = await meetupsCollection.find({}, { _id: 1 }).toArray(); //first argument is object to specify the criteria of finding. We dont have any so its empty
 
   client.close();
   
   return {
-    fallback: false,                        //if set to false then it means the paths array property down here includes all supported meetup ID values and if an unknown concrete id value is accessed, an error 404 code should be displayed. If set to true, then if an unspecifed id value is accessed nextJS will try to generate a page for such meetup ID dynamically on the server for the incoming request.
+    fallback: 'blocking',                        //if set to false then it means the paths array property down here includes all supported meetup ID values and if an unknown concrete id value is accessed, an error 404 code should be displayed. If set to true or 'blocking', then if an unspecifed id value is accessed nextJS will try to generate a page for such meetup ID dynamically on the server for the incoming request.
     paths: meetups.map(meetup => ({
       params: {
         meetupId: meetup._id.toString()
